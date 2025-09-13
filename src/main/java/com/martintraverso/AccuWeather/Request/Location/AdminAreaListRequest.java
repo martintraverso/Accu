@@ -1,7 +1,8 @@
 package com.martintraverso.AccuWeather.Request.Location;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.martintraverso.AccuWeather.Entity.AdminArea;
 import com.martintraverso.AccuWeather.Request.AccuWeatherRequest;
-import com.martintraverso.AccuWeather.Response.AccuWeatherResponse;
 import com.martintraverso.AccuWeather.Response.Location.AdminAreaListResponse;
 import com.martintraverso.AccuWeather.Utilities.HttpMethods;
 
@@ -25,14 +26,19 @@ public class AdminAreaListRequest implements AccuWeatherRequest {
     }
 
     @Override
-    public Class<? extends AccuWeatherResponse> getResponseClass() {
-        return AdminAreaListResponse.class;
+    public AdminAreaListResponse buildFromJson(JsonNode node) {
+        AdminAreaListResponse response = new AdminAreaListResponse();
+        for(var i =0; i < node.size(); i++) {
+            AdminArea adminArea = new AdminArea(node.get(i));
+            response.add(adminArea);
+        }
+        return response;
     }
 
     @Override
     public String getEndpoint() throws Exception {
         if (null == countryCode) {
-            throw new Exception("Endpoint is not complete for this request");
+            return "locations/v1/adminareas";
         }
         return "locations/v1/adminareas/" + countryCode;
 

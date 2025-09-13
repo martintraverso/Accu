@@ -1,10 +1,10 @@
-package com.martintraverso.AccuWeather.Response.Location;
+package com.martintraverso.AccuWeather.Entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.martintraverso.AccuWeather.Response.AccuWeatherResponse;
+import com.fasterxml.jackson.databind.JsonNode;
 
-public class AdminArea implements AccuWeatherResponse {
+public class AdminArea implements AccuWeatherEntity {
     private String ID;
     private String LocalizedName;
     private String EnglishName;
@@ -28,6 +28,16 @@ public class AdminArea implements AccuWeatherResponse {
         this.LocalizedType = LocalizedType;
         this.EnglishType = EnglishType;
         this.CountryID = CountryID;
+    }
+
+    public AdminArea(JsonNode node) {
+        this(node.get("ID").asText(),
+                node.get("LocalizedName").asText(),
+                node.get("EnglishName").asText(),
+                node.get("Level").asInt(),
+                node.get("LocalizedType").asText(),
+                node.get("EnglishType").asText(),
+                node.get("CountryID").asText());
     }
 
     public String getID() {

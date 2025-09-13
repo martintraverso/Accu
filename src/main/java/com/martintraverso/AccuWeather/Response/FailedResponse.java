@@ -1,6 +1,6 @@
 package com.martintraverso.AccuWeather.Response;
 
-public class FailedResponse implements AccuWeatherResponse {
+public class FailedResponse implements AccuWeatherFailedResponse {
     private String message;
     private int code;
 
